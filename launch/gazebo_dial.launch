@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<launch>
+
+<include file="$(find yumi_launch)/launch/yumi_gazebo_pos.launch">
+
+</include>
+<include file="$(find dialbox)/launch/dialbox.launch">
+</include>
+<node name="yumi_motion" pkg="yumi_motion" type="yumi_dial">
+</node>
+
+
+</launch>
