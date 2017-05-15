@@ -26,7 +26,8 @@ class yumi_dialbox{
     trajectory_msgs::JointTrajectory joint_states_init;
     void set_names(std::vector<std::string>& joint_trajectory_names);
     std::vector<std::string> name;
-    void set_values(bool val1, bool val2);
+    void set_values_dk(bool val1, bool val2);
+    void set_values_ik(double x, double y, double z, double z_tcp, bool T);
     void set_positions(trajectory_msgs::JointTrajectory& joint_trajectory,int i,std::vector<double> new_positions); 
     
     void DialboxCallback(const dialbox::dialboxState::ConstPtr& msg);
@@ -43,6 +44,10 @@ class yumi_dialbox{
     double dial_value_before;
     bool left;
     bool right;
+    double x;
+    double y;
+    double l;
+    double z_tcp;
     std::vector<double> variation;
     yumi_hw::YumiGrasp gripper_open_left;
     yumi_hw::YumiGrasp gripper_close_left;
@@ -55,7 +60,6 @@ class yumi_dialbox{
 
      yumi_dialbox::yumi_dialbox(){
         //names
-
 	joint_states.joint_names.resize(14);
 	joint_states_init.joint_names.resize(14);
 	//points
@@ -134,12 +138,20 @@ class yumi_dialbox{
     yumi_dialbox::~yumi_dialbox() {}
 
 
-    void yumi_dialbox::set_values(bool val1, bool val2){
+    void yumi_dialbox::set_values_dk(bool val1, bool val2){
 	left=val1;
     	right=val2;
 	ROS_INFO("left %d",left);
 	ROS_INFO("right %d",right);
     }	
+
+    void yumi_dialbox::set_values_ik(double val1, double val2, double val3, double val4, bool val5){
+	x=val1;
+    	y=val2;
+	l=val3;
+	z_tcp=val4;
+	START=val5;
+    }
 
 
     /*void yumi_dialbox::sjoint_states_initet_names( std::vector<std::string>& joint_trajectory_names){

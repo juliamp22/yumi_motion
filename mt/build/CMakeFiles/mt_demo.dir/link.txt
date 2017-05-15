@@ -1,0 +1,1 @@
+/usr/bin/c++       CMakeFiles/mt_demo.dir/mt_demo.o  -o mt_demo -rdynamic 

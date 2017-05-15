@@ -11,14 +11,15 @@
 #include <dynamic_reconfigure/server.h>
 #include <yumi_motion/yumimotionConfig.h>
 #include <yumi_hw/YumiGrasp.h>
- void cfgcallback(yumi_motion::yumimotionConfig &config, uint32_t level,yumi_dialbox *dialbox){
-	dialbox->set_values(config.left_cfg, config.right_cfg);
+
+void cfgcallback(yumi_motion::yumimotionConfig &config, uint32_t level,yumi_dialbox *dialbox){
+	dialbox->set_values_dk(config.left_cfg, config.right_cfg);
 	ROS_INFO("is_left %d",config.left_cfg);
 	ROS_INFO("is_right %d",config.right_cfg);
 	ROS_INFO("is_left %d",dialbox->left);
 	ROS_INFO("is_right %d",dialbox->right);
     }
- void yumi_dialbox::JointStatesCallback(const sensor_msgs::JointState::ConstPtr& msg){
+void yumi_dialbox::JointStatesCallback(const sensor_msgs::JointState::ConstPtr& msg){
 	//JOINT_STATES.points
 
 

@@ -11,10 +11,13 @@ find_package(catkin REQUIRED COMPONENTS
   dialbox 
   sensor_msgs
   dynamic_reconfigure
+
+
+  
 )
 
 ## System dependencies are found with CMake's conventions
-# find_package(Boost REQUIRED COMPONENTS system)
+#find_package(libmt)
 
 
 ## Uncomment this if the package has a setup.py. This macro ensures
@@ -64,7 +67,7 @@ find_package(catkin REQUIRED COMPONENTS
 # add_action_files(
 #   FILES
 #   Action1.action
-#   Action2.action
+#   Action2.actionset(mt_DIR libmt)
 # )
 
 ## Generate added messages and services with any dependencies listed here
@@ -90,7 +93,8 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate dynamic reconfigure parameters in the 'cfg' folder
 
 #Generate dynamic reconfigure options
-generate_dynamic_reconfigure_options(cfg/lor.cfg)
+generate_dynamic_reconfigure_options(cfg/lor.cfg
+				     cfg/ik.cfg)
 # generate_dynamic_reconfigure_options(
 #   cfg/DynReconf1.cfg
 #   cfg/DynReconf2.cfg
@@ -108,7 +112,7 @@ generate_dynamic_reconfigure_options(cfg/lor.cfg)
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES ${PROJECT_NAME}
-  CATKIN_DEPENDS roscpp dialbox std_msgs
+  CATKIN_DEPENDS roscpp dialbox std_msgs dynamic_reconfigure
 #  DEPENDS system_lib
 )
 
@@ -122,18 +126,19 @@ catkin_package(
 include_directories(
   ${catkin_INCLUDE_DIRS} include
   (${dialbox_INCLUDE_DIRS})
+  libmt 
 )
 
 ## Declare a C++ library
- #add_library(yumi_dial_lib src/yumi_dial.cpp)
+##add_library(${mt_DIR})
 
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
-## add_dependencies(yumi_motion ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+#add_dependencies(yumi_dial ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
-#add_dependencies(yumi_motion ${PROJECT_NAME}_gencfg)
+#add_dependencies(yumi_dial ${PROJECT_NAME}_gencfg)
 
 ## Declare a C++ executable
 add_executable(yumi_dial src/yumi_dial.cpp)
@@ -142,6 +147,8 @@ add_executable(yumi_dial_real_joint_states src/yumi_dial_real_joint_states.cpp)
 target_link_libraries(yumi_dial_real_joint_states ${catkin_LIBRARIES})
 add_executable(yumi_dial_real src/yumi_dial_real.cpp)
 target_link_libraries(yumi_dial_real ${catkin_LIBRARIES})
+add_executable(obtainqik src/obtainqik.cpp)
+target_link_libraries(obtainqik ${catkin_LIBRARIES} )
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
@@ -155,6 +162,7 @@ target_link_libraries(yumi_dial_real ${catkin_LIBRARIES})
 #############
 ## Install ##
 #############
+
 
 # all install targets should use catkin DESTINATION variables
 # See http://ros.org/doc/api/catkin/html/adv_user_guide/variables.html
