@@ -12,7 +12,7 @@
 //NaN:the position is not reachable.
 //Respect the shoulder, it is reachable (r=516,theta, gamma ) --> espherical coord.
 void cfgcallback(yumi_motion::ikConfig &config, uint32_t level,yumi_dialbox *reconfigure){
-	reconfigure->set_values_ik(config.X, config.Y,config.L,config.Z_tcp,config.START);
+	reconfigure->set_values_ik(config.X, config.Y,config.L,config.Z_tcp,config.START,config.n_solution);
 	/*ROS_INFO("X %f",config.X);
 	ROS_INFO("Y %f",config.Y);
 	ROS_INFO("L %f",config.L);
@@ -47,6 +47,8 @@ int main(int argc, char **argv)
 	f=boost::bind(&cfgcallback,_1,_2, &reconfigure);
 	server.setCallback(f);
 	ros::Rate loop_rate(1000);	
+	std::vector< yumik::ik > joint_results;
+	std::vector<double> joint_configuration;
 
 	 while (ros::ok()){
 		float x=reconfigure.x;
@@ -107,7 +109,17 @@ int main(int argc, char **argv)
 	
 		if (reconfigure.START){
 	
-			yumik.call(msg);
+			if(yumik.call(msg)){
+				
+				//for (int i = 0; i < msg.response.ikSolutions.size(); ++i) { 
+				joint_results.resize(msg.response.ikSolutions.size());
+				//}
+				joint_results=msg.response.ikSolutions;	
+				joint_configuration.resize(msg.response.ikSolutions[0].ik.size());
+				std::copy(msg.response.ikSolutions[0].ik.begin(),msg.response.ikSolutions[0].ik.end(),joint_configuration.begin());
+				ROS_INFO("size %d",msg.response.ikSolutions.size());
+			}	
+				
 		}
 		ros::spinOnce();
 	

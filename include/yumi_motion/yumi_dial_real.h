@@ -48,6 +48,7 @@ class yumi_dialbox{
     double y;
     double l;
     double z_tcp;
+    int n_solution;
     std::vector<double> variation;
     yumi_hw::YumiGrasp gripper_open_left;
     yumi_hw::YumiGrasp gripper_close_left;
@@ -145,12 +146,13 @@ class yumi_dialbox{
 	ROS_INFO("right %d",right);
     }	
 
-    void yumi_dialbox::set_values_ik(double val1, double val2, double val3, double val4, bool val5){
+    void yumi_dialbox::set_values_ik(double val1, double val2, double val3, double val4, bool val5, int val6){
 	x=val1;
     	y=val2;
 	l=val3;
 	z_tcp=val4;
 	START=val5;
+	n_solution=val6;
     }
 
 
