@@ -27,7 +27,7 @@ class yumi_dialbox{
     void set_names(std::vector<std::string>& joint_trajectory_names);
     std::vector<std::string> name;
     void set_values_dk(bool val1, bool val2);
-    void set_values_ik(double x, double y, double z, double z_tcp, bool T);
+    void set_values_ik(double x, double y, double z, double z_tcp, bool T, int n_solution);
     void set_positions(trajectory_msgs::JointTrajectory& joint_trajectory,int i,std::vector<double> new_positions); 
     
     void DialboxCallback(const dialbox::dialboxState::ConstPtr& msg);

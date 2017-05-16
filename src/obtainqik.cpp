@@ -11,6 +11,7 @@
 
 //NaN:the position is not reachable.
 //Respect the shoulder, it is reachable (r=516,theta, gamma ) --> espherical coord.
+//It will only work with RIGHT ARM!!!!
 void cfgcallback(yumi_motion::ikConfig &config, uint32_t level,yumi_dialbox *reconfigure){
 	reconfigure->set_values_ik(config.X, config.Y,config.L,config.Z_tcp,config.START,config.n_solution);
 	/*ROS_INFO("X %f",config.X);
@@ -55,12 +56,14 @@ int main(int argc, char **argv)
 		float y=reconfigure.y;
 		float L=reconfigure.l;
 		float z_tcp=reconfigure.z_tcp;
+		int n_solution=reconfigure.n_solution;
 		
 		ROS_INFO("x %f",reconfigure.x);
 		ROS_INFO("y %f",reconfigure.y);
 		ROS_INFO("l %f",reconfigure.l);
 		ROS_INFO("z_tcp %f",reconfigure.z_tcp);
 		ROS_INFO("START %d",reconfigure.START);
+		ROS_INFO("n_solution %d",reconfigure.n_solution);
 		//yTr
 
 		mt::Rotation ypr(-2.3180, -0.5716,-0.9781);
@@ -115,11 +118,20 @@ int main(int argc, char **argv)
 				joint_results.resize(msg.response.ikSolutions.size());
 				//}
 				joint_results=msg.response.ikSolutions;	
-				joint_configuration.resize(msg.response.ikSolutions[0].ik.size());
-				std::copy(msg.response.ikSolutions[0].ik.begin(),msg.response.ikSolutions[0].ik.end(),joint_configuration.begin());
-				ROS_INFO("size %d",msg.response.ikSolutions.size());
+				joint_configuration.resize(msg.response.ikSolutions[n_solution].ik.size());
+				std::copy(msg.response.ikSolutions[n_solution].ik.begin(),msg.response.ikSolutions[n_solution].ik.end(),joint_configuration.begin());
+				ROS_INFO("N_solution %d",n_solution);
+				reconfigure.joint_states.points[0].positions[7]=joint_configuration[0]; //1_r
+				reconfigure.joint_states.points[0].positions[8]=joint_configuration[1]; //2_r
+				reconfigure.joint_states.points[0].positions[9]=joint_configuration[3]; //3_r
+				reconfigure.joint_states.points[0].positions[10]=joint_configuration[4]; //4_r
+				reconfigure.joint_states.points[0].positions[11]=joint_configuration[5]; //5_r
+				reconfigure.joint_states.points[0].positions[12]=joint_configuration[6]; //6_r
+				reconfigure.joint_states.points[0].positions[13]=joint_configuration[2]; //7_r
 			}	
-				
+			joint_pub.publish(reconfigure.joint_states);				
+
+
 		}
 		ros::spinOnce();
 	
