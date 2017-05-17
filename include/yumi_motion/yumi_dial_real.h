@@ -54,12 +54,15 @@ class yumi_dialbox{
     yumi_hw::YumiGrasp gripper_close_left;
     yumi_hw::YumiGrasp gripper_open_right;
     yumi_hw::YumiGrasp gripper_close_right;
+    bool is_dialbox;
     //int n_v;
  
  
 };
 
      yumi_dialbox::yumi_dialbox(){
+
+
         //names
 	joint_states.joint_names.resize(14);
 	joint_states_init.joint_names.resize(14);

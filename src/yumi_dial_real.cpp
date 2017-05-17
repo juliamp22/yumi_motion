@@ -104,6 +104,7 @@ void yumi_dialbox::JointStatesCallback(const sensor_msgs::JointState::ConstPtr& 
 				joint_states.points[0].positions[7]=joint_states_init.points[0].positions[7]+dial_array[id]; //1_r
 			}
 		}
+		break;
 	case 1:
 		if (left){
 			if (-2.505<joint_states_init.points[0].positions[1]+dial_array[1]<1.01){//<0.8){//0.759){
@@ -115,6 +116,7 @@ void yumi_dialbox::JointStatesCallback(const sensor_msgs::JointState::ConstPtr& 
 				joint_states.points[0].positions[8]=joint_states_init.points[0].positions[8]+dial_array[id]; //2_r
 			}
 		}
+		break;
 	case 2:
 		if (left){
 			if (-2.155<joint_states_init.points[0].positions[2]+dial_array[2]<1.396){
@@ -126,6 +128,7 @@ void yumi_dialbox::JointStatesCallback(const sensor_msgs::JointState::ConstPtr& 
 				joint_states.points[0].positions[9]=joint_states_init.points[0].positions[9]+dial_array[2]; //3_r
 			}
 		}
+		break;
 	case 3:
 		if (left){
 			if (-5.061<joint_states_init.points[0].positions[3]+dial_array[3]<5.061){
@@ -137,6 +140,7 @@ void yumi_dialbox::JointStatesCallback(const sensor_msgs::JointState::ConstPtr& 
 				joint_states.points[0].positions[10]=joint_states_init.points[0].positions[10]+dial_array[3]; //4_r
 			}
 		}
+		break;
 	case 4:
 		if (left){
 			if (-1.536<joint_states_init.points[0].positions[4]+dial_array[4]<2.409){
@@ -148,6 +152,7 @@ void yumi_dialbox::JointStatesCallback(const sensor_msgs::JointState::ConstPtr& 
 				joint_states.points[0].positions[11]=joint_states_init.points[0].positions[11]+dial_array[4]; //5_r
 			}
 		}
+		break;
 	case 5:
 		if (left){
 			if (-3.997<joint_states_init.points[0].positions[5]+dial_array[5]<3.997){
@@ -159,6 +164,7 @@ void yumi_dialbox::JointStatesCallback(const sensor_msgs::JointState::ConstPtr& 
 				joint_states.points[0].positions[12]=joint_states_init.points[0].positions[12]+dial_array[5]; //6_r
 			}
 		}
+		break;
 	case 6:
 		if (left){
 			if (-2.941<joint_states_init.points[0].positions[6]+dial_array[6]<2.941){
@@ -170,7 +176,7 @@ void yumi_dialbox::JointStatesCallback(const sensor_msgs::JointState::ConstPtr& 
 				joint_states.points[0].positions[13]=joint_states_init.points[0].positions[13]+dial_array[6]; //7_r
 			}
 		}
-
+		break;
 	
 
 	case 7:
@@ -204,6 +210,7 @@ void yumi_dialbox::JointStatesCallback(const sensor_msgs::JointState::ConstPtr& 
 				gripper_close_right.request.gripper_id=0;
 			}
 		}
+		break;
 		
 
 	}
