@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<launch>
+
+
+<include file="$(find dialbox)/launch/dialbox.launch">
+</include>
+
+<node name="yumik" pkg="yumik" type="yumik-node">
+</node>
+
+<node name="yumi_motion" pkg="yumi_motion" type="obtainqik">
+</node>
+
+
+</launch>

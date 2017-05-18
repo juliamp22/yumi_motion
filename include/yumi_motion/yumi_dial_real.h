@@ -61,7 +61,12 @@ class yumi_dialbox{
 };
 
      yumi_dialbox::yumi_dialbox(){
-
+	x=300;
+    	y=200;
+	l=500;
+	z_tcp=200;
+	START=false;
+	n_solution=1;
 
         //names
 	joint_states.joint_names.resize(14);

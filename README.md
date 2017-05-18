@@ -38,5 +38,32 @@ You can found it in (git clone https://github.com/OrebroUniversity/yumi)
 
 
 
+## HOW TO LAUNCH INVERSE KINEMATIKS WITH DIALBOX || RQT_RECONFIGURE --> CAUTION InverseKinematiks is uploading, don't prove wit the REAL ROBOT YET!!
 
-# yumi_motion
+1- Choose between GAZEBO or real robot:
+
+# Option1.1: Run with GAZEBO
+
+1. roslaunch yumi_launch yumi_gazebo_pos.launch (to enable the connection between gazebo and ROS)
+
+# Option1.2: Run with real robot
+
+1. roslaunch yumi_launch yumi_pos_control.launch (to enable the connection between ROS and the robot)
+
+2-You've got two options:
+
+	1-Running a node moving yumi with dialbox, ch1:X, ch3:Y, ch5:Z, ch7:Z_tcp, ch0:choose which of the 16 configurations do you want to prove
+	1-Running with rqt_reconfigure.
+
+#Option 2.1 Run yumi with dialbox
+
+
+2. roslaunch yumi_motion ik_dialbox.launch
+
+#Option 2.2 Run yumi with rqt_reconfigure
+
+
+2. roslaunch yumi_motion ik_reconfigure.launch
+	
+
+

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<launch>
+
+<node name="yumik" pkg="yumik" type="yumik-node">
+</node>
+
+<node name="yumi_motion" pkg="yumi_motion" type="obtainqik">
+</node>
+
+<node name="rqt_reconfigure" pkg="rqt_reconfigure" type="rqt_reconfigure">
+</node>
+</launch>
+

@@ -14,15 +14,16 @@
 //Respect the shoulder, it is reachable (r=516,theta, gamma ) --> espherical coord.
 //It will only work with RIGHT ARM!!!!
 void cfgcallback(yumi_motion::ikConfig &config, uint32_t level,yumi_dialbox *reconfigure){
-	if (reconfigure->is_dialbox==true){
+	if (reconfigure->is_dialbox==false){
 		reconfigure->set_values_ik(config.X, config.Y,config.L,config.Z_tcp,config.START,config.n_solution);
 		reconfigure->is_dialbox=false;
-		/*ROS_INFO("X %f",config.X);
+		ROS_INFO("X %f",config.X);
 		ROS_INFO("Y %f",config.Y);
 		ROS_INFO("L %f",config.L);
 		ROS_INFO("Z_tcp %f",config.Z_tcp);
-		ROS_INFO("START %f",config.START);*/
+		ROS_INFO("START %f",config.START);
 	}
+		
     }
 void printTransform(mt::Transform T)
 {
@@ -45,8 +46,8 @@ void yumi_dialbox::DialboxCallback(const dialbox::dialboxState::ConstPtr& msg){
 	switch(id){
 
 		case 0:
-			if (dial_array[id]/30.0>16){
-				n_solution=16;
+			if (dial_array[id]/30.0>15){
+				n_solution=15;
 			}	
 			else if (dial_array[id]/30.0<0){
 				n_solution=0;
@@ -149,7 +150,7 @@ int main(int argc, char **argv)
 	    	mt::Matrix3x3 M=R.getMatrix();
 	    	mt::Point3 d =rTtcp.getTranslation();
 
-		ROS_INFO("hola");
+		
 		/*std::cout<<"\nyTr:" <<std::endl;
 	     	printTransform(yTr);
 		std::cout<<"\nwTo:" <<std::endl;
@@ -167,19 +168,22 @@ int main(int argc, char **argv)
 		msg.request.pose.orientation.y=R[1];
 		msg.request.pose.orientation.z=R[2];
 		msg.request.pose.orientation.w=R[3];
-
-	
+		ROS_INFO("start %d",reconfigure.START);
 		if ((reconfigure.START)||(reconfigure.is_dialbox)){
-	
+		ROS_INFO("HE ENTRAT!");
 			if(yumik.call(msg)){
-				
-				//for (int i = 0; i < msg.response.ikSolutions.size(); ++i) { 
+
 				joint_results.resize(msg.response.ikSolutions.size());
-				//}
+
+						ROS_INFO("hola3");
+				ROS_INFO("c_n_solution %d",reconfigure.n_solution);
 				joint_results=msg.response.ikSolutions;	
 				joint_configuration.resize(msg.response.ikSolutions[reconfigure.n_solution].ik.size());
+						ROS_INFO("hola4");
+						ROS_INFO("c_n_solution %d",reconfigure.n_solution);
 				std::copy(msg.response.ikSolutions[reconfigure.n_solution].ik.begin(),msg.response.ikSolutions[reconfigure.n_solution].ik.end(),joint_configuration.begin());
-				//ROS_INFO("N_solution %d",reconfigure.n_solution);
+				ROS_INFO("hola5");
+
 				reconfigure.joint_states.points[0].positions[7]=joint_configuration[0]; //1_r
 				reconfigure.joint_states.points[0].positions[8]=joint_configuration[1]; //2_r
 				reconfigure.joint_states.points[0].positions[9]=joint_configuration[3]; //3_r
@@ -187,13 +191,14 @@ int main(int argc, char **argv)
 				reconfigure.joint_states.points[0].positions[11]=joint_configuration[5]; //5_r
 				reconfigure.joint_states.points[0].positions[12]=joint_configuration[6]; //6_r
 				reconfigure.joint_states.points[0].positions[13]=joint_configuration[2]; //7_r
+
 			}	
 			joint_pub.publish(reconfigure.joint_states);				
 
 
 		}
 		ros::spinOnce();
-	
+
 	}
 	  return 0;
 
