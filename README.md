@@ -75,7 +75,7 @@ IMPORTANT NOTES:
 - yumi_sinus.cpp: Is a node made to move arms as a sinus. There is an option to start from the actual position of the robot or, from an random initial position predefined
 
 
-- yumi_dial.cpp: It is the node created to move the robot as dialbox sais. 
+- yumi_dial_real.cpp:  It is the node created to move the robot as dialbox sais. 
   Joints are going to be defined by dialbox with the following distribution: 
 				
 				--------------------------	
@@ -86,13 +86,20 @@ IMPORTANT NOTES:
 				--------------------------
 
 
-- obtainqik.cpp: 
+- obtainqik.cpp: It has made for inverse kinematiks
 
-- yumi_dial_real.cpp:
+- yumi_dial_real_joint_states.cpp: It is the node created to move the robot as dialbox sais. 
+  Joints are going to be defined by dialbox with the following distribution: 
+				
+				--------------------------	
+				|  - 1  |-------| - 0    |
+   				|  - 3  |       | - 2    |
+   				|  - 5  |       | - 4    |
+   				|  - 7  |-------| - 6    |
+				--------------------------
 
+But leaving from the actual position from the robot, not from a defined position.
 
-
-- yumi_dial_real_joint_states.cpp:
 
 
 
