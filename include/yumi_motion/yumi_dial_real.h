@@ -27,7 +27,7 @@ class yumi_dialbox{
     void set_names(std::vector<std::string>& joint_trajectory_names);
     std::vector<std::string> name;
     void set_values_dk(bool val1, bool val2);
-    void set_values_ik(double x, double y, double z, double z_tcp, bool T, int n_solution);
+    void set_values_ik(double x_l, double y_l, double z_l, double z_tcp_l, bool T, int n_solution, bool left, bool right,double x_r, double y_r, double z_r, double z_tcp_r, bool gripper_open_left, bool gripper_close_left, bool gripper_open_right,bool gripper_close_right);
     void set_positions(trajectory_msgs::JointTrajectory& joint_trajectory,int i,std::vector<double> new_positions); 
     
     void DialboxCallback(const dialbox::dialboxState::ConstPtr& msg);
@@ -48,7 +48,16 @@ class yumi_dialbox{
     double y;
     double l;
     double z_tcp;
+    double x_l;
+    double y_l;
+    double l_l;
+    double z_tcp_l;
+    double x_r;
+    double y_r;
+    double l_r;
+    double z_tcp_r;
     int n_solution;
+    bool configure_ik;
     std::vector<double> variation;
     yumi_hw::YumiGrasp gripper_open_left;
     yumi_hw::YumiGrasp gripper_close_left;
@@ -154,13 +163,51 @@ class yumi_dialbox{
 	ROS_INFO("right %d",right);
     }	
 
-    void yumi_dialbox::set_values_ik(double val1, double val2, double val3, double val4, bool val5, int val6){
-	x=val1;
-    	y=val2;
-	l=val3;
-	z_tcp=val4;
+    void yumi_dialbox::set_values_ik(double val1, double val2, double val3, double val4, bool val5, int val6, bool val7, bool val8, double val9, double val10, double val11, double val12,bool val13, bool val14, bool val15, bool val16){
+	x_l=val1;
+    	y_l=val2;
+	l_l=val3;
+	z_tcp_l=val4;
 	START=val5;
+	left=val7;
+	right=val8;
 	n_solution=val6;
+	x_r=val9;
+    	y_r=val10;
+	l_r=val11;
+	z_tcp_r=val12;
+	ROS_INFO("gripper_open_left %d",val13);
+	ROS_INFO("gripper_close_left %d",val14);
+	ROS_INFO("gripper_open_right %d",val15);
+	ROS_INFO("gripper_close_right %d",val16);
+    	
+	if((val13==1)&&(val14==0)){
+		gripper_open_left.request.gripper_id=1;
+		gripper_close_left.request.gripper_id=0;
+	}
+	else if((val13==0)&&(val14==1)){
+		gripper_open_left.request.gripper_id=0;
+		gripper_close_left.request.gripper_id=1;
+	}
+	else{
+		gripper_open_left.request.gripper_id=0;
+		gripper_close_left.request.gripper_id=0;
+	}
+	if((val15==1)&&(val16==0)){
+		gripper_open_right.request.gripper_id=2;
+		gripper_close_right.request.gripper_id=0;
+	}
+	else if((val15==0)&&(val16==1)){
+		gripper_open_right.request.gripper_id=0;
+		gripper_close_right.request.gripper_id=2;
+	}
+	else{
+		gripper_open_right.request.gripper_id=0;
+		gripper_close_right.request.gripper_id=0;
+	}
+
+
+	
     }
 
 

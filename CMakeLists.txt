@@ -149,6 +149,8 @@ add_executable(yumi_dial_real src/yumi_dial_real.cpp)
 target_link_libraries(yumi_dial_real ${catkin_LIBRARIES})
 add_executable(obtainqik src/obtainqik.cpp)
 target_link_libraries(obtainqik ${catkin_LIBRARIES} )
+add_executable(yumi_sinus src/yumi_sinus.cpp)
+target_link_libraries(yumi_sinus ${catkin_LIBRARIES} )
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above

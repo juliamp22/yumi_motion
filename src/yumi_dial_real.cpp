@@ -80,6 +80,7 @@ void yumi_dialbox::JointStatesCallback(const sensor_msgs::JointState::ConstPtr& 
 	//gripper_open_right.request.gripper_id=0;
 	//gripper_close_right.request.gripper_id=0;
 	//yumi_dialbox param;
+	ROS_INFO("dial_value %f",dial_value);
 	variation.resize(8);
 	id=msg->dial;
 	//n_v=int (msg->dialValue)%16;
@@ -87,8 +88,10 @@ void yumi_dialbox::JointStatesCallback(const sensor_msgs::JointState::ConstPtr& 
 	dial_value_before=dial_array[id];
 	dial_array[id]=dial_value; //MODIFICACIÓ DEL DIAL
 	variation[id]=dial_value-dial_value_before;
-	ROS_INFO("is_left %d",left);
-	ROS_INFO("is_right %d",right);
+	ROS_INFO("dial_value %f",dial_value);
+	//ROS_INFO("is_left %d",left);
+	//ROS_INFO("is_right %d",right);
+	ROS_INFO("dial_array_7 %d",id); 
 
 	switch(id){
 	
@@ -218,7 +221,7 @@ void yumi_dialbox::JointStatesCallback(const sensor_msgs::JointState::ConstPtr& 
 
 
 	
-	/*ROS_INFO("v1_l %f",variation[0]); 
+	ROS_INFO("v1_l %f",variation[0]); 
 	ROS_INFO("v1_r %f",variation[0]);
 	ROS_INFO("v2_l %f",variation[1]);
 	ROS_INFO("v2_r %f",variation[1]);
@@ -231,7 +234,7 @@ void yumi_dialbox::JointStatesCallback(const sensor_msgs::JointState::ConstPtr& 
 	ROS_INFO("v6_l %f",variation[5]);
 	ROS_INFO("v6_r %f",variation[5]);
 	ROS_INFO("v7_l %f",variation[6]);
-	ROS_INFO("v7_r %f",variation[6]);*/
+	ROS_INFO("v7_r %f",variation[6]);
 
     }
 
@@ -254,12 +257,14 @@ int main(int argc, char **argv)
 	
   f=boost::bind(&cfgcallback,_1,_2, &dialbox);
   server.setCallback(f);
-  sub_dbox = nh.subscribe("dialboxTopic", 1, &yumi_dialbox::DialboxCallback, &dialbox);
+  ROS_INFO("1");	
+  sub_dbox = nh.subscribe("/dialboxTopic", 1, &yumi_dialbox::DialboxCallback, &dialbox);
   sub_js = nh.subscribe("/yumi/joint_states", 1000, &yumi_dialbox::JointStatesCallback, &dialbox);
   gripper_client_close = nh.serviceClient<yumi_hw::YumiGrasp>("/yumi/yumi_gripper/do_grasp");
   gripper_client_open = nh.serviceClient<yumi_hw::YumiGrasp>("/yumi/yumi_gripper/release_grasp");
   joint_pub = nh.advertise<trajectory_msgs::JointTrajectory>("/yumi/joint_trajectory_pos_controller/command", 1);
-  ros::Rate loop_rate(100);	
+  ros::Rate loop_rate(100);
+ ROS_INFO("2");	
   while (ros::ok()){
  	
 	
@@ -287,26 +292,26 @@ int main(int argc, char **argv)
 	}
 	else if((dialbox.left)&&(dialbox.gripper_open_left.request.gripper_id==1)){
 
-		ROS_INFO("gripper_open_left %d",dialbox.gripper_open_left.request.gripper_id); 
+		//ROS_INFO("gripper_open_left %d",dialbox.gripper_open_left.request.gripper_id); 
 		gripper_client_open.call(dialbox.gripper_open_left);
 	}
 	else{
-		ROS_INFO("gripper_close_left %d",dialbox.gripper_close_left.request.gripper_id); 
+		/*ROS_INFO("gripper_close_left %d",dialbox.gripper_close_left.request.gripper_id); 
 		ROS_INFO("gripper_open_left %d",dialbox.gripper_open_left.request.gripper_id); 		
-		ROS_INFO("do_nothing_left");
+		ROS_INFO("do_nothing_left");*/
 	}
 	if(dialbox.right&&(dialbox.gripper_close_right.request.gripper_id==2)){
-		ROS_INFO("gripper_close_right %d",dialbox.gripper_close_right.request.gripper_id); 
+		//ROS_INFO("gripper_close_right %d",dialbox.gripper_close_right.request.gripper_id); 
 		gripper_client_close.call(dialbox.gripper_close_right);
 	}
 	else if(dialbox.right&&(dialbox.gripper_open_right.request.gripper_id==2)){
-		ROS_INFO("gripper_open_right %d",dialbox.gripper_open_right.request.gripper_id); 
+		//ROS_INFO("gripper_open_right %d",dialbox.gripper_open_right.request.gripper_id); 
 		gripper_client_open.call(dialbox.gripper_open_right);
 	}
 	else{
-		ROS_INFO("do_nothing_right");
+		/*ROS_INFO("do_nothing_right");
 		ROS_INFO("gripper_close_right %d",dialbox.gripper_close_right.request.gripper_id);
-		ROS_INFO("gripper_copen_right %d",dialbox.gripper_open_right.request.gripper_id); 
+		ROS_INFO("gripper_copen_right %d",dialbox.gripper_open_right.request.gripper_id); */
 
 	}
 

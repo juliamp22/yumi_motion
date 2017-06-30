@@ -15,7 +15,7 @@ You can found it in (git clone https://github.com/OrebroUniversity/yumi)
 1. roslaunch yumi_launch yumi_gazebo_pos.launch (to enable the connection between gazebo and ROS)
 
 # Option1.2: Run with real robot
-
+C
 1. roslaunch yumi_launch yumi_pos_control.launch (to enable the connection between ROS and the robot)
 
 
@@ -32,9 +32,6 @@ You can found it in (git clone https://github.com/OrebroUniversity/yumi)
 # Option2.2: Running yumi from a fixed position
 
 2. roslaunch yumi_motion real_dial.launch
-
-
-
 
 
 
@@ -58,12 +55,45 @@ You can found it in (git clone https://github.com/OrebroUniversity/yumi)
 #Option 2.1 Run yumi with dialbox
 
 
-2. roslaunch yumi_motion ik_dialbox.launch
+2. roslaunch yumi_motion ik_dialbox.launch 
+Make sure that dialbox has been established correctly (try making roslaunch dialbox dialbox.launch)
 
 #Option 2.2 Run yumi with rqt_reconfigure
 
 
 2. roslaunch yumi_motion ik_reconfigure.launch
 	
+
+
+IMPORTANT NOTES:
+
+#include
+- Also in include/yumi_motion folder, there is a library which makes easier yumi's job. (yumi_dial_real.h)
+- Also there are another library (yumi_dial_real_2.h) which is used to get the joint_states position (the actual position of the robot).
+
+#src
+- yumi_sinus.cpp: Is a node made to move arms as a sinus. There is an option to start from the actual position of the robot or, from an random initial position predefined
+
+
+- yumi_dial.cpp: It is the node created to move the robot as dialbox sais. 
+  Joints are going to be defined by dialbox with the following distribution: 
+				
+				--------------------------	
+				|  - 1  |-------| - 0    |
+   				|  - 3  |       | - 2    |
+   				|  - 5  |       | - 4    |
+   				|  - 7  |-------| - 6    |
+				--------------------------
+
+
+- obtainqik.cpp: 
+
+- yumi_dial_real.cpp:
+
+
+
+- yumi_dial_real_joint_states.cpp:
+
+
 
 
